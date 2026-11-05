@@ -296,9 +296,4 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
             "salud/complementos-nutricionales",
         ],
     ),
-    "Cosmeshop": lambda: nopcommerce(
-        "Cosmeshop",
-        "https://www.cosmeshop.com.uy",
-        ["maquillaje", "unas-2", "cosmetica", "perfumeria", "promociones"],
-    ),
 }

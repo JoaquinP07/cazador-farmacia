@@ -9,8 +9,8 @@ Es el tercer cazador de la familia: el de electrónica (`cazador-ofertas`) y el 
 | Tienda | Cobertura |
 |---|---|
 | San Roque | Perfumería, maquillaje, cuidado de la piel, cuidado personal, vitaminas y nutrición (~5.000). Sin medicamentos. |
-| Farmashop | Perfumes, maquillaje, manos, cuidado personal y suplementos (~6.000). Sin medicamentos. |
-| Cosmeshop | Maquillaje, uñas, cosmética, perfumería y promociones (~2.500) |
+| Farmashop | Perfumes, maquillaje, manos, cuidado personal y suplementos (~5.200). Sin medicamentos. |
+| Cosmeshop | ❌ pide verificación «soy humano» y bloquea las conexiones desde GitHub |
 
 Pendientes de revisar: Farmacity, La Farmacia Online, Farma UY, Perfumería Todo.
 
