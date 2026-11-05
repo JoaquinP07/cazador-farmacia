@@ -16,9 +16,9 @@ from . import telegram
 from .nucleo import Producto, fmt
 from .tiendas import TIENDAS
 
-TOP = 15  # cuántos productos mostrar
+TOP = 25  # cuántos productos mostrar
 DESCUENTO_MINIMO = 0.30  # no se muestra nada con menos descuento que esto
-MAX_POR_TIENDA = 3  # para que una sola tienda no ocupe todo el resumen
+MAX_POR_TIENDA = 5  # para que una sola tienda no ocupe todo el resumen
 PRECIO_MINIMO = {"UYU": 300.0, "USD": 8.0}  # descartar productos baratos con descuentos poco útiles
 LIMITE_MENSAJE = 3800  # Telegram corta a los 4096 caracteres
 
