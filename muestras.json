@@ -1,0 +1,337 @@
+{
+ "San Roque": [
+  {
+   "tienda": "San Roque",
+   "id": "141644-141644",
+   "nombre": "Perfume Rabanne One Million Black EDP 50ml",
+   "precio": 5870.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-rabanne-one-million-black-edp-50ml_141644_141644",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141055-141055",
+   "nombre": "Perfume Carolina Herrera Swing EDP 100ml",
+   "precio": 7455.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-carolina-herrera-swing-edp-100ml_141055_141055",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141056-141056",
+   "nombre": "Perfume Carolina Herrera Swing Men EDP 100ml",
+   "precio": 6680.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-carolina-herrera-swing-men-edp-100ml_141056_141056",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141232-141232",
+   "nombre": "Perfume Carolina Herrera La Bomba Intensa EDP 50ml",
+   "precio": 7931.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-carolina-herrera-la-bomba-intensa-edp-50ml_141232_141232",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141233-141233",
+   "nombre": "Perfume Carolina Herrera La Bomba Intensa EDP 80ml",
+   "precio": 9911.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-carolina-herrera-la-bomba-intensa-edp-80ml_141233_141233",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141825-141825",
+   "nombre": "Perfume Miu Miu L'Eau Bleue EDP 50ml",
+   "precio": 9130.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-miu-miu-l-eau-bleue-edp-50ml_141825_141825",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141826-141826",
+   "nombre": "Perfume Miu Miu L'Eau Bleue EDP 100ml",
+   "precio": 11400.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-miu-miu-l-eau-bleue-edp-100ml_141826_141826",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141827-141827",
+   "nombre": "Perfume Miu Miu Fleur De Lait EDP 50ml",
+   "precio": 9130.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-miu-miu-fleur-de-lait-edp-50ml_141827_141827",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141834-141834",
+   "nombre": "Perfume Miu Miu L'Eau De Muguet EDP 50ml  ",
+   "precio": 9130.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-miu-miu-l-eau-de-muguet-edp-50ml_141834_141834",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "141835-141835",
+   "nombre": "Perfume Miu Miu L'Eau De Muguet EDP 100ml  ",
+   "precio": 11400.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-miu-miu-l-eau-de-muguet-edp-100ml_141835_141835",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "142172-142172",
+   "nombre": "Perfume Valentino Vendetta Donna EDP 90ml",
+   "precio": 7371.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-valentino-vendetta-donna-edp-90ml_142172_142172",
+   "precio_lista": 9840.0,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "33940-33940",
+   "nombre": "Perfume Calvin Klein ck Be EDT 200ml",
+   "precio": 5650.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-calvin-klein-ck-be-edt-200ml_33940_33940",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "131709-131709",
+   "nombre": "Perfume Diesel D by Diesel EDT 50ml",
+   "precio": 4510.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-diesel-d-by-diesel-edt-50ml_131709_131709",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "133521-133521",
+   "nombre": "Perfume Boss Bottled Elixir EDP 100ml",
+   "precio": 8350.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-boss-bottled-elixir-edp-100ml_133521_133521",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "San Roque",
+   "id": "140629-140629",
+   "nombre": "Perfume Jean Paul Gaultier Le Male Blue Le EDP 125ml",
+   "precio": 6680.0,
+   "moneda": "UYU",
+   "url": "https://www.sanroque.com.uy/perfumeria/perfume-jean-paul-gaultier-le-male-blue-le-edp-125ml_140629_140629",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  }
+ ],
+ "Farmashop": [
+  {
+   "tienda": "Farmashop",
+   "id": "6244066",
+   "nombre": "Perfume Carolina Herrera Femme EDP 100 ml",
+   "precio": 6325.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/c-herrera-edp-100ml-femme.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244346",
+   "nombre": "Cofre Lancôme Perfume La Vie Est Belle Femme EDP 50 ml + Loción Corporal 50 ml + Máscara de Pestañas",
+   "precio": 9255.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/set-lancome-lveb-v100-l50-2ml-hyp-2026.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244401",
+   "nombre": "Perfume Lancôme La Vie Est Belle Edición Limitada Femme Elixir 50 ml",
+   "precio": 6300.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/lancome-ed-limitada-lveb-elixir-edp-50ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244411",
+   "nombre": "Cofre Armani Perfume My Way Femme EDP 90 ml + Mini Talla 10 ml + Loción Corporal 50 ml",
+   "precio": 10790.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/set-armani-my-way-edp-v90-v10-bl50-2026.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244431",
+   "nombre": "Perfume Prada Paradoxe Radical Essence Femme EDP 30 ml",
+   "precio": 6750.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/prada-paradoxe-essence-30ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244091",
+   "nombre": "Perfume Jean Paul Gaultier Classique Femme EDT 100 ml",
+   "precio": 7500.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/clasique-edt-100ml-b.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244076",
+   "nombre": "Perfume Jean Paul Gaultier Scandal Femme Le Parfum EDP Intense 80 ml",
+   "precio": 8160.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/jpg-scandal-le-parf-w-edp-80ml-b.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244406",
+   "nombre": "Perfume Valentino Vendetta Donna EDP 90 ml",
+   "precio": 9840.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/valentino-vendetta-donna-edp-90ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244356",
+   "nombre": "Perfume Valentino Vendetta Donna EDP 50 ml",
+   "precio": 7430.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/valentino-vendetta-donna-edp-50ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6244351",
+   "nombre": "Perfume Valentino Vendetta Donna EDP 30 ml",
+   "precio": 5320.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/valentino-vendetta-donna-edp-30ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6242696",
+   "nombre": "Perfume Sabrina Carpenter Sweet Tooth Femme EDP 75 ml",
+   "precio": 2600.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/sabrina-carpenter-sweet-tooth-edp-75ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6242146",
+   "nombre": "Perfume Rabanne Million Red For Her Parfum 50 ml",
+   "precio": 6390.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/paco-rabanne-million-gold-her-red-50ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6241441",
+   "nombre": "Perfume Rabanne Million Red For Her Parfum 30 ml",
+   "precio": 4460.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/paco-rabanne-million-gold-her-red-30ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6242151",
+   "nombre": "Perfume Rabanne Million Red For Her Parfum 90 ml",
+   "precio": 8050.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/paco-rabanne-million-gold-her-red-90ml.html",
+   "precio_lista": null,
+   "disponible": true,
+   "extra": {}
+  },
+  {
+   "tienda": "Farmashop",
+   "id": "6242346",
+   "nombre": "Perfume Cher Mix Be Bold Femme EDT 75 ml",
+   "precio": 1196.0,
+   "moneda": "UYU",
+   "url": "https://tienda.farmashop.com.uy/cher-mix-be-bold-edt-75-ml.html",
+   "precio_lista": 1495.0,
+   "disponible": true,
+   "extra": {}
+  }
+ ],
+ "Cosmeshop": []
+}
