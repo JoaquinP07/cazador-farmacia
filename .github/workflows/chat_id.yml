@@ -1,0 +1,23 @@
+name: Averiguar el número del grupo
+
+# Se corre una sola vez, a mano, para saber qué número cargar como TELEGRAM_CHAT_ID.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chat-id:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Buscar los chats del bot
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        run: python -m cazador.chat_id

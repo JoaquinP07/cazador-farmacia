@@ -1,0 +1,30 @@
+name: Resumen de ofertas
+
+# Manda por Telegram un resumen con los productos de mayor descuento publicado ahora mismo.
+# Corre aparte del cazador (otro grupo de concurrencia), así no espera a la tanda larga.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: resumen
+  cancel-in-progress: false
+
+jobs:
+  resumen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Armar y enviar el resumen
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m cazador --resumen
