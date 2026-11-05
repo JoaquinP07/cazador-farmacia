@@ -4,6 +4,7 @@ from __future__ import annotations
 import html
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import Callable, Iterable
 
 import requests
@@ -159,22 +160,27 @@ def _farmashop_pagina(texto: str, tienda: str, base: str) -> list[Producto]:
     return prods
 
 
-def magento_html(tienda: str, base: str, categorias: Iterable[str], max_paginas: int = 60) -> list[Producto]:
-    vistos: dict[str, Producto] = {}
-    for cat in categorias:
-        n = 0
+def magento_html(tienda: str, base: str, categorias: Iterable[str], max_paginas: int = 60, hilos: int = 3) -> list[Producto]:
+    def leer_categoria(cat: str) -> list[Producto]:
+        encontrados: dict[str, Producto] = {}
         for pag in range(1, max_paginas + 1):
             r = _get(f"{base}/{cat}.html", params={"p": pag})
             if r.status_code != 200:
                 nota(f"  [{tienda}] {cat} pág {pag}: HTTP {r.status_code}")
                 break
-            nuevos = [p for p in _farmashop_pagina(r.text, tienda, base) if p.clave not in vistos]
+            nuevos = [p for p in _farmashop_pagina(r.text, tienda, base) if p.clave not in encontrados]
             if not nuevos:
                 break
             for p in nuevos:
-                vistos[p.clave] = p
-            n += len(nuevos)
-        nota(f"  [{tienda}] {cat}: {n} leídos")
+                encontrados[p.clave] = p
+        nota(f"  [{tienda}] {cat}: {len(encontrados)} leídos")
+        return list(encontrados.values())
+
+    vistos: dict[str, Producto] = {}
+    with ThreadPoolExecutor(max_workers=hilos) as ex:  # pocas categorías a la vez, para no saturar la tienda
+        for lote in ex.map(leer_categoria, list(categorias)):
+            for p in lote:
+                vistos.setdefault(p.clave, p)
     return list(vistos.values())
 
 
