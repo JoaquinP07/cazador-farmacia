@@ -23,7 +23,7 @@ PRECIO_MINIMO = {"UYU": 300.0, "USD": 8.0}  # descartar productos baratos con de
 LIMITE_MENSAJE = 3800  # Telegram corta a los 4096 caracteres
 
 INTRO = (
-    "📋 <b>Resumen de ofertas del momento</b>\n"
+    "🏷️ <b>OFERTAS DEL MOMENTO</b> — <i>no son errores de precio</i>\n"
     "Son los productos con <b>más descuento publicado ahora mismo</b> (precio actual contra el precio de "
     "lista que muestra cada tienda). <b>No son errores de precio</b>: son rebajas que la tienda ya tiene "
     "puestas, algunas desde hace días.\n\n"
@@ -65,7 +65,7 @@ def elegir(productos: list[Producto], top: int = TOP) -> list[Producto]:
 
 def linea(n: int, p: Producto) -> str:
     return (
-        f"{n}. <b>{html.escape(p.tienda)}</b> — {html.escape(p.nombre[:90])}\n"
+        f"🏷️ {n}. <b>{html.escape(p.tienda)}</b> — {html.escape(p.nombre[:90])}\n"
         f"   <b>{fmt(p.precio, p.moneda)}</b> · {descuento(p):.0%} menos que su precio de lista "
         f"({fmt(p.precio_lista, p.moneda)})\n"
         f'   <a href="{html.escape(p.url, quote=True)}">Ver producto</a>'

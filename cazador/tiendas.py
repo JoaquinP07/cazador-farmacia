@@ -28,15 +28,21 @@ SES.headers.update({"User-Agent": UA, "Accept-Language": "es-UY,es;q=0.9"})
 
 
 def _get(url: str, **kw) -> requests.Response:
-    for intento in range(3):
+    for intento in range(4):
+        espera = 2 + intento * 3
         try:
             r = SES.get(url, timeout=30, **kw)
-            if r.status_code < 500:
+            if r.status_code == 429:  # demasiados pedidos: esperar lo que pida la tienda y reintentar
+                try:
+                    espera = min(int(r.headers.get("Retry-After", "")), 60)
+                except ValueError:
+                    espera = 15 * (intento + 1)
+            elif r.status_code < 500:
                 return r
         except requests.RequestException:
-            if intento == 2:
+            if intento == 3:
                 raise
-        time.sleep(2 + intento * 3)
+        time.sleep(espera)
     return r
 
 
@@ -160,7 +166,7 @@ def _farmashop_pagina(texto: str, tienda: str, base: str) -> list[Producto]:
     return prods
 
 
-def magento_html(tienda: str, base: str, categorias: Iterable[str], max_paginas: int = 60, hilos: int = 3) -> list[Producto]:
+def magento_html(tienda: str, base: str, categorias: Iterable[str], max_paginas: int = 60, hilos: int = 2) -> list[Producto]:
     def leer_categoria(cat: str) -> list[Producto]:
         encontrados: dict[str, Producto] = {}
         for pag in range(1, max_paginas + 1):
