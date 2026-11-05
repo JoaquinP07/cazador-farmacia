@@ -279,6 +279,56 @@ def juntar(listas: Iterable[list[Producto]]) -> list[Producto]:
     return list(vistos.values())
 
 
+# ---------------------------------------------------------------- VTEX FastStore (Tata / Multiahorro Hogar)
+_FS_QUERY = "https://www.tata.com.uy/api/graphql"
+
+
+def faststore(tienda: str, base: str, categorias: Iterable[str]) -> list[Producto]:
+    vistos: dict[str, Producto] = {}
+    for cat in categorias:
+        after, total = 0, None
+        while True:
+            variables = {
+                "first": 50,
+                "after": str(after),
+                "sort": "price_asc",
+                "term": "",
+                "selectedFacets": [{"key": "category-1", "value": cat}],
+            }
+            r = _get(
+                _FS_QUERY,
+                params={"operationName": "ProductsQuery", "variables": json.dumps(variables)},
+            )
+            if r.status_code != 200:
+                nota(f"  [{tienda}] {cat}: HTTP {r.status_code}")
+                break
+            try:
+                datos = r.json()["data"]["search"]["products"]
+            except (ValueError, KeyError, TypeError):
+                nota(f"  [{tienda}] {cat}: respuesta inesperada {r.text[:200]}")
+                break
+            total = datos["pageInfo"]["totalCount"]
+            for e in datos["edges"]:
+                n = e["node"]
+                for o in (n.get("offers") or {}).get("offers", [])[:1]:
+                    p = Producto(
+                        tienda=tienda,
+                        id=str(n["sku"]),
+                        nombre=n["name"],
+                        precio=float(o["price"]),
+                        moneda="UYU",
+                        url=f"{base}/{n['slug']}/p",
+                        precio_lista=float(o["listPrice"]) if o.get("listPrice") else None,
+                        disponible="InStock" in (o.get("availability") or ""),
+                    )
+                    vistos[p.clave] = p
+            after += 50
+            if after >= total or not datos["edges"] or after >= 3000:
+                break
+        nota(f"  [{tienda}] {cat}: {total} declarados")
+    return list(vistos.values())
+
+
 # ---------------------------------------------------------------- Configuración
 TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "San Roque": lambda: fenicio(
@@ -362,5 +412,8 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
             271,  # Belleza
             1001,  # Oportunidades imperdibles
         )
+    ),
+    "Tata / Multiahorro": lambda: faststore(
+        "Tata / Multiahorro", "https://www.tata.com.uy", ["perfumeria"]  # shampoos, jabones, desodorantes, cuidado personal
     ),
 }
