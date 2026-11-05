@@ -22,7 +22,14 @@ def main() -> int:
         print("Telegram no aceptó el token (revisá que esté bien copiado).")
         return 1
     print("Bot:", (yo.get("result") or {}).get("username"))
-    up = requests.get(f"https://api.telegram.org/bot{token}/getUpdates", timeout=20).json()
+    wh = requests.get(f"https://api.telegram.org/bot{token}/getWebhookInfo", timeout=20).json().get("result") or {}
+    print("Webhook configurado:", bool(wh.get("url")))
+    up = requests.get(
+        f"https://api.telegram.org/bot{token}/getUpdates",
+        params={"allowed_updates": '["message","my_chat_member","channel_post","edited_message"]'},
+        timeout=20,
+    ).json()
+    print("Mensajes pendientes que ve el bot:", len(up.get("result", [])))
     chats: dict[int, str] = {}
     for u in up.get("result", []):
         for clave in ("message", "my_chat_member", "channel_post", "edited_message"):
