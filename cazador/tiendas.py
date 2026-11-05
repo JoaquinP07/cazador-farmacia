@@ -184,58 +184,92 @@ def magento_html(tienda: str, base: str, categorias: Iterable[str], max_paginas:
     return list(vistos.values())
 
 
-# ---------------------------------------------------------------- nopCommerce (Cosmeshop)
-_NOP_ITEM = re.compile(r'<div class="product-item[^"]*" data-productid="(\d+)"')
-
-
-def _nop_pagina(texto: str, tienda: str, base: str) -> list[Producto]:
-    prods = []
-    cortes = [m.start() for m in _NOP_ITEM.finditer(texto)] + [len(texto)]
-    for i, m in enumerate(_NOP_ITEM.finditer(texto)):
-        bloque = texto[m.start(): cortes[i + 1]]
-        a = re.search(r'<h2 class="product-title"><a href="([^"]+)">([^<]*)</a>', bloque)
-        actual = re.search(r'class="price actual-price">([^<]*)<', bloque)
-        if not (a and actual):
-            continue
-        precio = _monto(actual.group(1))
-        if not precio or not precio[1]:
-            continue
-        antes = re.search(r'class="price old-price">([^<]*)<', bloque)
-        lista = _monto(antes.group(1)) if antes else None
-        prods.append(
-            Producto(
-                tienda=tienda,
-                id=m.group(1),
-                nombre=html.unescape(a.group(2)).strip(),
-                precio=precio[1],
-                moneda=moneda(precio[0]),
-                url=base + a.group(1) if a.group(1).startswith("/") else a.group(1),
-                precio_lista=lista[1] if lista and lista[1] > precio[1] else None,
-                disponible="product-box-add-to-cart-button" in bloque,
-            )
-        )
-    return prods
-
-
-def nopcommerce(tienda: str, base: str, categorias: Iterable[str], max_paginas: int = 80) -> list[Producto]:
+# ---------------------------------------------------------------- VTEX clásico (Farmacity)
+def vtex(tienda: str, base: str, maximo: int = 2500, fq: str | None = None) -> list[Producto]:
     vistos: dict[str, Producto] = {}
-    for cat in categorias:
-        n = 0
-        for pag in range(1, max_paginas + 1):
-            r = _get(f"{base}/{cat}", params={"pagenumber": pag})
-            if r.status_code != 200:
-                nota(f"  [{tienda}] {cat} pág {pag}: HTTP {r.status_code}")
-                break
-            nuevos = [p for p in _nop_pagina(r.text, tienda, base) if p.clave not in vistos]
-            if not nuevos:
-                break
-            for p in nuevos:
+    desde, total = 0, None
+    while desde < maximo:
+        r = _get(f"{base}/api/catalog_system/pub/products/search", params={"_from": desde, "_to": desde + 49, **({"fq": fq} if fq else {})})
+        if r.status_code not in (200, 206):
+            nota(f"  [{tienda}] desde {desde}: HTTP {r.status_code}")
+            break
+        if total is None:
+            m = re.search(r"/(\d+)$", r.headers.get("resources", ""))
+            total = int(m.group(1)) if m else maximo
+        lote = r.json()
+        if not lote:
+            break
+        for pr in lote:
+            for it in pr.get("items", [])[:20]:
+                of = ((it.get("sellers") or [{}])[0]).get("commertialOffer") or {}
+                if not of.get("Price"):
+                    continue
+                lista = of.get("ListPrice") or of.get("PriceWithoutDiscount")
+                p = Producto(
+                    tienda=tienda,
+                    id=str(it["itemId"]),
+                    nombre=it.get("nameComplete") or pr["productName"],
+                    precio=float(of["Price"]),
+                    moneda="UYU",
+                    url=pr.get("link") or f"{base}/{pr['linkText']}/p",
+                    precio_lista=float(lista) if lista and lista > of["Price"] else None,
+                    disponible=(of.get("AvailableQuantity") or 0) > 0,
+                )
                 vistos[p.clave] = p
-            n += len(nuevos)
-            ultima = max((int(x) for x in re.findall(r"pagenumber=(\d+)", r.text)), default=1)
-            if pag >= ultima:
-                break
-        nota(f"  [{tienda}] {cat}: {n} leídos")
+        desde += 50
+        if desde >= total:
+            break
+    nota(f"  [{tienda}] {fq or 'todo'}: {total} declarados")
+    return list(vistos.values())
+
+
+# ---------------------------------------------------------------- Magento 2 con GraphQL abierto (Farma.uy)
+_MAG_Q = (
+    "{products(search:\"\", %s pageSize:%d, currentPage:%d){total_count items{sku name url_key url_suffix stock_status "
+    "price_range{minimum_price{final_price{value currency} regular_price{value}}}}}}"
+)
+
+
+def magento(tienda: str, base: str, categoria: str | None = None, por_pagina: int = 100, max_paginas: int = 60) -> list[Producto]:
+    filtro = f'filter:{{category_id:{{eq:"{categoria}"}}}}' if categoria else ""
+    vistos: dict[str, Producto] = {}
+    total = None
+    for pag in range(1, max_paginas + 1):
+        r = _get(f"{base}/graphql", params={"query": _MAG_Q % (filtro, por_pagina, pag)})
+        try:
+            datos = r.json()["data"]["products"]
+        except (ValueError, KeyError, TypeError):
+            nota(f"  [{tienda}] pág {pag}: HTTP {r.status_code} {r.text[:150]}")
+            break
+        total = datos["total_count"]
+        for it in datos["items"]:
+            mp = it["price_range"]["minimum_price"]
+            precio, lista = mp["final_price"]["value"], (mp.get("regular_price") or {}).get("value")
+            if not precio:
+                continue
+            p = Producto(
+                tienda=tienda,
+                id=it["sku"],
+                nombre=it["name"].strip(),
+                precio=float(precio),
+                moneda="USD" if mp["final_price"].get("currency") == "USD" else "UYU",
+                url=f"{base}/{it['url_key']}{it.get('url_suffix') or ''}",
+                precio_lista=float(lista) if lista and lista > precio else None,
+                disponible=it.get("stock_status") == "IN_STOCK",
+            )
+            vistos[p.clave] = p
+        if pag * por_pagina >= total or not datos["items"]:
+            break
+    nota(f"  [{tienda}] {total} declarados")
+    return list(vistos.values())
+
+
+def juntar(listas: Iterable[list[Producto]]) -> list[Producto]:
+    """Une varias lecturas (una por categoría) sin repetir productos."""
+    vistos: dict[str, Producto] = {}
+    for lista in listas:
+        for p in lista:
+            vistos.setdefault(p.clave, p)
     return list(vistos.values())
 
 
@@ -295,5 +329,32 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
             "salud/suplementacion",
             "salud/complementos-nutricionales",
         ],
+    ),
+    "Farmacity": lambda: juntar(
+        vtex("Farmacity", "https://www.farmacity.com.uy", fq=f"C:/{cat}/")
+        for cat in (
+            2228,  # Maquillaje
+            2249,  # Perfumes y fragancias
+            2254,  # Cuidado de la piel
+            2255,  # Cuidado capilar
+            2263,  # Electro belleza
+            2270,  # Accesorios de belleza
+            2273,  # Dermocosmética
+            2297,  # Cuidado personal
+            2425,  # Nutrición y deportes
+        )
+    ),
+    "Farma.uy": lambda: juntar(
+        magento("Farma.uy", "https://www.farma.uy", categoria=cat)
+        for cat in (
+            8,  # Dermocosmética
+            387,  # Maquillaje
+            15,  # Cuidado capilar
+            45,  # Perfumes y fragancias
+            51,  # Cuidado personal
+            80,  # Suplementos y fitness
+            271,  # Belleza
+            1001,  # Oportunidades imperdibles
+        )
     ),
 }
