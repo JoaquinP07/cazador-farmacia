@@ -417,4 +417,9 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "Tata / Multiahorro": lambda: faststore(
         "Tata / Multiahorro", "https://www.tata.com.uy", ["perfumeria"]  # shampoos, jabones, desodorantes, cuidado personal
     ),
+    "Farmacia El Túnel": lambda: fenicio(
+        "Farmacia El Túnel",
+        "https://eltunel.com.uy",
+        ["dermocosmetica", "cosmetica", "cuidado-personal", "cuidado-capilar", "cuidado-bucal", "fragancias", "nutricion"],
+    ),
 }
