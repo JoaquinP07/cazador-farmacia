@@ -36,5 +36,5 @@ En **Settings → Secrets and variables → Actions** del repositorio:
 ## Flujos de GitHub Actions
 
 - **Cazador Farmacia**: la revisión continua. Se lanza a mano la primera vez (y con «prueba» activada manda un mensaje de prueba y guarda un reporte); después se encadena sola.
-- **Resumen de ofertas**: manda un solo mensaje con los productos de mayor descuento publicado ahora mismo. A diferencia de los avisos, no son errores de precio: son rebajas que la tienda ya tiene puestas.
+- **Resumen de ofertas** (se manda solo todos los días a las 21:07, y también se puede lanzar a mano): manda un solo mensaje con los productos de mayor descuento publicado ahora mismo. A diferencia de los avisos, no son errores de precio: son rebajas que la tienda ya tiene puestas.
 - **Averiguar el número del grupo**: se usa una vez para el `TELEGRAM_CHAT_ID`.

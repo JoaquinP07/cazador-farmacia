@@ -4,6 +4,8 @@ name: Resumen de ofertas
 # Corre aparte del cazador (otro grupo de concurrencia), así no espera a la tanda larga.
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "7 0 * * *"  # todos los días 21:07 hora de Uruguay (00:07 UTC)
 
 permissions:
   contents: read
