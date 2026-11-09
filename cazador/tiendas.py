@@ -330,6 +330,56 @@ def faststore(tienda: str, base: str, categorias: Iterable[str]) -> list[Product
     return list(vistos.values())
 
 
+# ---------------------------------------------------------------- WooCommerce (Cachi)
+def woocommerce(tienda: str, base: str, por_pagina: int = 100, max_paginas: int = 30,
+                categorias: Iterable[str] | None = None) -> list[Producto]:
+    """API pública de WooCommerce. `categorias`: nombres (slug) de las secciones a leer; sin ellas, todo el catálogo."""
+    vistos: dict[str, Producto] = {}
+    total = 0
+    for cat in (list(categorias) if categorias else [None]):
+        for pag in range(1, max_paginas + 1):
+            params = {"per_page": por_pagina, "page": pag}
+            if cat:
+                params["category"] = cat
+            r = _get(f"{base}/wp-json/wc/store/v1/products", params=params)
+            if r.status_code != 200:
+                nota(f"  [{tienda}] {cat or 'todo'} pág {pag}: HTTP {r.status_code}")
+                break
+            try:
+                lote = r.json()
+            except ValueError:
+                nota(f"  [{tienda}] pág {pag}: respuesta inesperada {r.text[:150]}")
+                break
+            if pag == 1:
+                total += int(r.headers.get("x-wp-total") or 0)
+            for it in lote:
+                pr = it.get("prices") or {}
+                div = 10 ** int(pr.get("currency_minor_unit") or 0)
+                try:
+                    precio = float(pr.get("price") or 0) / div
+                    lista = float(pr.get("regular_price") or 0) / div
+                except ValueError:
+                    continue
+                if not precio:
+                    continue
+                p = Producto(
+                    tienda=tienda,
+                    id=str(it["id"]),
+                    nombre=html.unescape(it["name"]).strip(),
+                    precio=precio,
+                    moneda="USD" if pr.get("currency_code") == "USD" else "UYU",
+                    url=it["permalink"],
+                    precio_lista=lista if lista > precio else None,
+                    disponible=bool(it.get("is_in_stock", True)),
+                )
+                vistos[p.clave] = p
+            paginas = int(r.headers.get("x-wp-totalpages") or 1)
+            if pag >= paginas or not lote:
+                break
+    nota(f"  [{tienda}] {total} declarados")
+    return list(vistos.values())
+
+
 # ---------------------------------------------------------------- Configuración
 TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "San Roque": lambda: fenicio(
@@ -422,4 +472,5 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
         "https://eltunel.com.uy",
         ["dermocosmetica", "cosmetica", "cuidado-personal", "cuidado-capilar", "cuidado-bucal", "fragancias", "nutricion"],
     ),
+    "Cachi": lambda: woocommerce("Cachi", "https://cachi.uy", categorias=["perfumes", "cosmetica"]),  # ~1.600 productos
 }

@@ -72,7 +72,7 @@ def _lector(extra: dict):
     if tipo == "shopify" and shopify:
         return lambda: shopify(nombre, base)
     if tipo == "woocommerce" and woocommerce:
-        return lambda: woocommerce(nombre, base, max_paginas=60)
+        return lambda: woocommerce(nombre, base, max_paginas=60, categorias=extra.get("cats"))
     raise ValueError(tipo)
 
 
@@ -245,8 +245,8 @@ def agregar(arg: str) -> str:
                 "(sé leer Fenicio" + (", Shopify" if shopify else "") + (" y WooCommerce" if woocommerce else "") + "). "
                 "Mandásela a Claude y la armamos a mano.")
     tipo, base = hallada
-    if tipo == "fenicio" and EXIGE_CATEGORIAS and not cats:
-        return ("Es una tienda Fenicio. En este bot hay que elegir las secciones para no traer todo el catálogo: "
+    if tipo in ("fenicio", "woocommerce") and EXIGE_CATEGORIAS and not cats:
+        return (f"Es una tienda {tipo.capitalize()}. En este bot hay que elegir las secciones para no traer todo el catálogo: "
                 f"<code>/agregar {html.escape(base)} cats=seccion1,seccion2</code>. "
                 "Los nombres están en la dirección de cada sección (por ejemplo tienda.com.uy/<b>perfumeria</b>).")
     if any(e["base"] == base for e in c["extra"]):
@@ -255,7 +255,7 @@ def agregar(arg: str) -> str:
     if nombre.casefold() in {k.casefold() for k in tiendas_activas()}:
         return f"Ya hay una tienda llamada <b>{html.escape(nombre)}</b>. Probá con otro nombre: <code>/agregar {html.escape(base)} OtroNombre</code>"
     extra = {"nombre": nombre, "base": base, "tipo": tipo}
-    if cats and tipo == "fenicio":
+    if cats and tipo in ("fenicio", "woocommerce"):
         extra["cats"] = cats
     try:
         prods = _lector(extra)()
