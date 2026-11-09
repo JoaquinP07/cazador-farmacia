@@ -380,6 +380,39 @@ def woocommerce(tienda: str, base: str, por_pagina: int = 100, max_paginas: int 
     return list(vistos.values())
 
 
+# ---------------------------------------------------------------- Feed oficial del grupo Loi (MiBelleza)
+def feed_loi(tienda: str, base: str) -> list[Producto]:
+    prods: dict[str, Producto] = {}
+    pag, paginas = 1, 1
+    while pag <= paginas and pag <= 80:
+        r = _get(f"{base}/api/v1/products.json", params={"per_page": 100, "page": pag})
+        if r.status_code != 200:
+            nota(f"  [{tienda}] pág {pag}: HTTP {r.status_code}")
+            break
+        d = r.json()
+        paginas = d.get("total_pages") or 0
+        for it in d.get("products", []):
+            precio = it.get("price") or {}
+            monto = float(precio.get("amount") or 0)
+            if not monto:
+                continue
+            p = Producto(
+                tienda=tienda,
+                id=str(it["id"]),
+                nombre=it["title"].strip(),
+                precio=monto,
+                moneda="USD" if precio.get("currency") == "USD" else "UYU",
+                url=it["url"],
+                precio_lista=float(precio["original_amount"]) if precio.get("original_amount") else None,
+                disponible=it.get("availability") == "in_stock",
+            )
+            prods[p.clave] = p
+        pag += 1
+        time.sleep(0.7)  # respeta el límite de 100 pedidos por minuto
+    nota(f"  [{tienda}] {len(prods)} leídos")
+    return list(prods.values())
+
+
 # ---------------------------------------------------------------- Configuración
 TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "San Roque": lambda: fenicio(
@@ -473,4 +506,17 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
         ["dermocosmetica", "cosmetica", "cuidado-personal", "cuidado-capilar", "cuidado-bucal", "fragancias", "nutricion"],
     ),
     "Cachi": lambda: woocommerce("Cachi", "https://cachi.uy", categorias=["perfumes", "cosmetica"]),  # ~1.600 productos
+    "MiBelleza": lambda: feed_loi("MiBelleza", "https://mibelleza.uy"),  # ~970 productos (grupo Loi)
+    "Pigalle": lambda: juntar(
+        magento("Pigalle", "https://www.pigalle.com.uy", categoria=cat)
+        for cat in (
+            74,  # Cuidado de la piel
+            82,  # Cuidado personal
+            80,  # Cuidado capilar
+            84,  # Cuidado oral
+            78,  # Fragancias
+            79,  # Maquillaje
+            105,  # Nutrición (dentro de Salud; sin medicamentos)
+        )
+    ),
 }

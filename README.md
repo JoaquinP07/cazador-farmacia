@@ -13,6 +13,8 @@ Es el tercer cazador de la familia: el de electrónica (`cazador-ofertas`) y el 
 | Farmacity | Maquillaje, perfumes, cuidado de la piel y capilar, dermocosmética, cuidado personal y nutrición (~3.700). Sin medicamentos. |
 | Farma.uy | Dermocosmética, maquillaje, cuidado capilar y personal, perfumes, suplementos y belleza (~1.500). Sin medicamentos. |
 | Tata / Multiahorro | Sección de perfumería: cuidado personal, higiene, cabello y perfumes (~1.470) |
+| MiBelleza | Belleza, cuidado del cabello y dermocosmética (~970, feed oficial) |
+| Pigalle | Cuidado de la piel, personal, capilar y oral, fragancias, maquillaje y nutrición (~3.500). Sin medicamentos. |
 | Cachi | Perfumes y cosmética (~1.600). Sin bebidas, alimentos ni tabaco. |
 | Farmacia El Túnel | Dermocosmética, cosmética, cuidado personal y capilar, bucal, fragancias y nutrición (~3.000). Sin medicamentos. |
 | Cosmeshop | ❌ pide verificación «soy humano» y bloquea las conexiones desde GitHub |
