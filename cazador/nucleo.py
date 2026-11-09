@@ -80,6 +80,8 @@ class Historial:
             if p.precio > 0:
                 reg["h"] = (reg["h"] + [p.precio])[-MAX_HISTORIAL:]
         reg["n"], reg["m"], reg["t"] = p.nombre, p.moneda, ahora
+        # Datos para el comando /buscar (precio actual, enlace, disponibilidad, precio de lista).
+        reg["p"], reg["u"], reg["d"], reg["l"] = p.precio, p.url, p.disponible, p.precio_lista
         return motivo
 
     def limpiar(self, dias: int = 30) -> None:

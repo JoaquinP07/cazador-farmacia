@@ -18,6 +18,17 @@ Es el tercer cazador de la familia: el de electrónica (`cazador-ofertas`) y el 
 
 Pendientes de revisar: La Farmacia Online (no se encontró la dirección web) y Perfumería Todo.
 
+## Comandos por Telegram
+
+El bot contesta en unos segundos (solo al chat configurado en `TELEGRAM_CHAT_ID`). En un grupo, escribí el comando con el nombre del bot (por ejemplo `/lista@nombre_del_bot`).
+
+- `/buscar taladro` → las 10 más baratas entre todas las tiendas. Con `oferta` al final, las que más bajaron; con `historico`, las que están en su precio mínimo registrado.
+- `/agregar https://tienda.com.uy cats=seccion1,seccion2` → suma una tienda si usa Fenicio, Shopify o WooCommerce. En las tiendas Fenicio hay que elegir las secciones.
+- `/quitar nombre` y `/reanudar nombre` → sacan o pausan una tienda.
+- `/lista` → tiendas que se revisan y cuántos productos tiene cada una.
+
+Las tiendas agregadas y pausadas se guardan en `estado/control.json` (en el mismo caché que el historial).
+
 ## Cuándo avisa
 
 - Un producto cuesta **30% menos o más** que su precio habitual (la mediana de los últimos precios vistos).

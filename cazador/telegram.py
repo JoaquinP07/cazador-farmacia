@@ -11,7 +11,7 @@ ULTIMO_ERROR = ""
 from .nucleo import Producto, fmt
 
 
-def enviar(texto: str) -> bool:
+def enviar(texto: str, vista_previa: bool = True) -> bool:
     global ULTIMO_ERROR
     token = (os.environ.get("TELEGRAM_TOKEN") or "").strip()
     chat = (os.environ.get("TELEGRAM_CHAT_ID") or "").strip()
@@ -25,7 +25,7 @@ def enviar(texto: str) -> bool:
             "chat_id": chat,
             "text": texto,
             "parse_mode": "HTML",
-            "disable_web_page_preview": False,
+            "disable_web_page_preview": not vista_previa,
         },
         timeout=20,
     )

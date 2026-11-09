@@ -14,7 +14,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from . import telegram
 from .nucleo import Producto, fmt
-from .tiendas import TIENDAS
+from .comandos import tiendas_activas
 
 TOP = 25  # cuántos productos mostrar
 DESCUENTO_MINIMO = 0.30  # no se muestra nada con menos descuento que esto
@@ -97,7 +97,7 @@ def correr() -> int:
             return nombre, None
 
     with ThreadPoolExecutor(max_workers=8) as ex:
-        lecturas = list(ex.map(leer, TIENDAS.items()))
+        lecturas = list(ex.map(leer, tiendas_activas().items()))
 
     todos: list[Producto] = []
     for nombre, prods in lecturas:

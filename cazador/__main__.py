@@ -17,7 +17,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 from . import telegram
 from .nucleo import Historial, fmt
-from .tiendas import DETALLE, TIENDAS
+from .comandos import atender_mientras, tiendas_activas
+from .tiendas import DETALLE
 
 HISTORIAL = pathlib.Path("estado/historial.json")
 
@@ -40,7 +41,7 @@ def revisar(prueba: bool = False) -> None:
             return nombre, None, time.time() - t0
 
     with ThreadPoolExecutor(max_workers=8) as ex:
-        lecturas = list(ex.map(leer_tienda, TIENDAS.items()))
+        lecturas = list(ex.map(leer_tienda, tiendas_activas().items()))
 
     for nombre, prods, seg in lecturas:
         if prods is None:
@@ -102,7 +103,7 @@ def main() -> int:
         proxima = t0 + INTERVALO
         if proxima + 60 - inicio > DURACION:
             break
-        time.sleep(max(0, proxima - time.time()))
+        atender_mientras(proxima, HISTORIAL)  # espera la próxima vuelta contestando comandos de Telegram
     print(f"Fin de la tanda: {vuelta} vueltas en {(time.time() - inicio) / 60:.0f} min")
     return 0
 
